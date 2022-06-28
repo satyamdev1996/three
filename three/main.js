@@ -3,6 +3,8 @@ import suntex from './images/sun.jpg'
 import mertex from './images/mercury.jpg'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 // console.log(OrbitControls)
+var control;
+
 const scene = new Three.Scene()
 const textureLoader = new Three.TextureLoader();
 console.log(scene)
@@ -15,7 +17,7 @@ renderer.setSize(innerWidth, innerHeight)
 renderer.setPixelRatio(devicePixelRatio)
 document.body.appendChild(renderer.domElement)
 
-
+control = new OrbitControls(camera, renderer.domElement)
 
 const particleGeometry = new Three.BufferGeometry;
 const particleCount = 3000;
