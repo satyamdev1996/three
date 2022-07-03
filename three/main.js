@@ -45,7 +45,7 @@ const updated_spere = new Three.Mesh(
     fragmentShader,
     uniforms: {
       globeTexture: {
-        value: new Three.TextureLoader().load(suntex)
+        value: new Three.TextureLoader().load('./images/mercury.jpg')
       }
     }
     
