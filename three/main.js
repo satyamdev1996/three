@@ -2,6 +2,10 @@ import * as Three from 'three';
 import suntex from './images/sun.jpg'
 import mertex from './images/mercury.jpg'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { Material } from 'three';
+import vertexShader from './shaders/vertex.glsl';
+import fragmentShader from './shaders/fragment.glsl';
+
 // console.log(OrbitControls)
 var control;
 
@@ -10,7 +14,11 @@ const textureLoader = new Three.TextureLoader();
 console.log(scene)
 const camera = new Three.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000)
 console.log(camera)
-const renderer = new Three.WebGLRenderer()
+const renderer = new Three.WebGLRenderer(
+  {
+    antialias: true
+  }
+)
 console.log(renderer)
 
 renderer.setSize(innerWidth, innerHeight)
@@ -30,6 +38,19 @@ const mat = new Three.PointsMaterial({
   size: 0.005
 })
 
+const updated_spere = new Three.Mesh(
+  new Three.SphereGeometry(5, 50, 50),
+  new Three.ShaderMaterial({
+    vertexShader,
+    fragmentShader,
+    uniforms: {
+      globeTexture: {
+        value: new Three.TextureLoader().load(suntex)
+      }
+    }
+    
+  }))
+scene.add(updated_spere)
 const particlemesh = new Three.Points(particleGeometry, mat)
 const geometry = new Three.SphereGeometry(16, 30, 30);
 const material = new Three.MeshPhongMaterial({ map: textureLoader.load(suntex), side: Three.DoubleSide });
@@ -41,7 +62,7 @@ const MerMaterial = new Three.MeshStandardMaterial({ map: textureLoader.load(mer
 const MerSphere = new Three.Mesh(merGeometry, MerMaterial);
 MerSphere.position.x = 28
 sphere.add(MerSphere)
-scene.add(sphere)
+// scene.add(sphere)
 scene.add(particlemesh)
 console.log(geometry)
 camera.position.z = 100
