@@ -5,6 +5,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { Material } from 'three';
 import vertexShader from './shaders/vertex.glsl';
 import fragmentShader from './shaders/fragment.glsl';
+import a_vertex from './shaders/a_vertex.glsl';
+import a_fragment from './shaders/a_fragment.glsl';
 
 // console.log(OrbitControls)
 var control;
@@ -45,11 +47,23 @@ const updated_spere = new Three.Mesh(
     fragmentShader,
     uniforms: {
       globeTexture: {
-        value: new Three.TextureLoader().load('./images/mercury.jpg')
+        value: new Three.TextureLoader().load('./images/sun.jpg')
       }
     }
     
   }))
+
+const radiation_sphere = new Three.Mesh(
+  new Three.SphereGeometry(5, 200, 2000),
+  new Three.ShaderMaterial({
+    vertexShader: a_vertex,
+    fragmentShader: a_fragment,
+    blending: Three.AdditiveBlending,
+    side:Three.BackSide
+
+  }))
+radiation_sphere.scale.set(1.1, 1.1, 1.1)
+scene.add(radiation_sphere)
 scene.add(updated_spere)
 const particlemesh = new Three.Points(particleGeometry, mat)
 const geometry = new Three.SphereGeometry(16, 30, 30);
